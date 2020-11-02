@@ -11,6 +11,7 @@ public class Main
     {
         LOGGER.error("Error message");
         System.out.println("Hello, world!");
+        Hello hello = new Hello();
     }
 
 
