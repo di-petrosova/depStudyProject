@@ -4,8 +4,8 @@
         <Console name="LogToConsole" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </Console>
-        <RollingFile name="LogToRollingFile"
-                     filePattern="logs/app-%d{yyyy-MM-dd-hh-mm}.log">
+        <RollingFile name="LogToRollingFile" fileName="logs/app.log"
+                     filePattern="logs/app-%d{yyyy-MM-dd-hh}.log">
             <PatternLayout>
                 <Pattern>%d %p %c [%t] %m%n</Pattern>
             </PatternLayout>
@@ -23,6 +23,7 @@
             <AppenderRef ref="LogToConsole"/>
         </Logger>
         <Root level="debug">
+            <AppenderRef ref="LogToRollingFile"/>
             <AppenderRef ref="LogToConsole"/>
         </Root>
     </Loggers>
