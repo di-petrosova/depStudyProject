@@ -1,15 +1,18 @@
-package com.application;
+package com.application.controller;
+
+import com.application.data.DepartmentData;
+import com.application.service.DepartmentService;
+import com.application.service.impl.DefaultDepartmentService;
 
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-
-public class Hello extends HttpServlet
-{
+public class DepController extends HttpServlet {
 
     /**
      * Respond to a GET request for the content produced by
@@ -19,19 +22,17 @@ public class Hello extends HttpServlet
      * @exception IOException if an input/output error occurs
      * @exception ServletException if a servlet error occurs
      */
-    @Override
-    public void doGet(HttpServletRequest request,
-            HttpServletResponse response)
-            throws IOException, ServletException
-    {
-        request.getRequestDispatcher("/WEB-INF/jsp/departments-list.jsp").forward(request, response);
-    }
 
     @Override
-    public void doPost(HttpServletRequest request,
-            HttpServletResponse response)
+    public void doGet(HttpServletRequest request,
+                      HttpServletResponse response)
             throws IOException, ServletException
     {
+        DepartmentService departmentService = new DefaultDepartmentService();
+        List<DepartmentData> allDepartments = departmentService.getAllDepartments();
+
+        request.setAttribute("departments", allDepartments);
+
         request.getRequestDispatcher("/WEB-INF/jsp/departments-list.jsp").forward(request, response);
     }
 }

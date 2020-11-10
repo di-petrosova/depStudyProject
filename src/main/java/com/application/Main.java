@@ -1,5 +1,6 @@
 package com.application;
 
+import com.application.service.impl.DefaultDepartmentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,9 +10,8 @@ public class Main
 
     public static void main(String[] args)
     {
-        LOGGER.error("Error message");
-        Hello hello = new Hello();
+        LOGGER.info("Application started");
+        DefaultDepartmentService defaultDepartmentService = new DefaultDepartmentService();
+        defaultDepartmentService.getAllDepartments();
     }
-
-
 }
