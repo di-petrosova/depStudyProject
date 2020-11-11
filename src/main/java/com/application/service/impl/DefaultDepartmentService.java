@@ -45,4 +45,10 @@ public class DefaultDepartmentService implements DepartmentService
         return departmentsList;
     }
 
+    @Override
+    public List<DepartmentData> removeDepartment(String id) {
+        departmentsDAO.removeDepartmentDAO(id);
+
+        return getAllDepartments();
+    }
 }

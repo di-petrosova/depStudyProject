@@ -45,6 +45,15 @@
             <td>${department.depBuilding}</td>
             <td>${department.depStreet}</td>
             <td>${department.depIndex}</td>
+<%--            <c:if test="${sdgh}">--%>
+<%--            </c:if>--%>
+            <td>
+                <form action="${pageContext.request.contextPath}/depController" method="post">
+                    <input name="idToRemove" type="text" value="${department.depId}" hidden>
+                    <button type="submit">Remove</button>
+                </form>
+            </td>
+
         </tr>
     </c:forEach>
 

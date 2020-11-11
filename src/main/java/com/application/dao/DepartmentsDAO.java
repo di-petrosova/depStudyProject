@@ -4,4 +4,5 @@ import java.sql.ResultSet;
 
 public interface DepartmentsDAO {
     ResultSet getAllDepartments();
+    void removeDepartmentDAO(String id);
 }

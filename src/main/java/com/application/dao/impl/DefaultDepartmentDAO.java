@@ -36,4 +36,20 @@ public class DefaultDepartmentDAO implements DepartmentsDAO {
         return rs;
     }
 
+    @Override
+    public void removeDepartmentDAO(String id) {
+        String query = "DELETE FROM depStudyProject.Departments WHERE Id=" + "\'" + id + "\'" + ";";
+
+        try
+        {
+            Connection connection = DBConnectionFactory.createConnection();
+            Statement statement = connection.createStatement();
+            statement.execute(query);
+        }
+       catch (SQLException e)
+        {
+            System.out.println("Remove from database was failed");
+            e.printStackTrace();
+        }
+    }
 }

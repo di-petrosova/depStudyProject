@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface DepartmentService {
     List<DepartmentData> getAllDepartments();
+    List<DepartmentData> removeDepartment(String id);
 }

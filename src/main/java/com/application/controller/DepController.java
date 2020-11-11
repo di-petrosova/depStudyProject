@@ -35,4 +35,15 @@ public class DepController extends HttpServlet {
 
         request.getRequestDispatcher("/WEB-INF/jsp/departments-list.jsp").forward(request, response);
     }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String idToRemove = req.getParameter("idToRemove");
+        DepartmentService departmentService = new DefaultDepartmentService();
+        List<DepartmentData> leftDepartments = departmentService.removeDepartment(idToRemove);
+
+        req.setAttribute("departments", leftDepartments);
+
+        req.getRequestDispatcher("/WEB-INF/jsp/departments-list.jsp").forward(req, resp);
+    }
 }
