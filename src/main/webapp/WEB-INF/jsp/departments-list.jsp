@@ -48,7 +48,7 @@
 <%--            <c:if test="${sdgh}">--%>
 <%--            </c:if>--%>
             <td>
-                <form action="${pageContext.request.contextPath}/depController" method="post">
+                <form action="${pageContext.request.contextPath}/department" method="post">
                     <input name="idToRemove" type="text" value="${department.depId}" hidden>
                     <button type="submit">Remove</button>
                 </form>
@@ -56,7 +56,14 @@
 
         </tr>
     </c:forEach>
-
+    <tr>
+        <td>
+            <form action="${pageContext.request.contextPath}/department/create" method="get">
+                <button type="submit">Create department</button>
+            </form>
+<%--            <a href="${pageContext.request.contextPath}/department/create">Create department</a>--%>
+        </td>
+    </tr>
     </tbody>
 </table>
 </body>

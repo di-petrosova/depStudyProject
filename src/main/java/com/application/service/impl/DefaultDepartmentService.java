@@ -5,17 +5,18 @@ import com.application.dao.impl.DefaultDepartmentDAO;
 import com.application.data.DepartmentData;
 import com.application.service.DepartmentService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DefaultDepartmentService implements DepartmentService
 {
 
     private DepartmentsDAO departmentsDAO = new DefaultDepartmentDAO();
-
-
 
     @Override
     public List<DepartmentData> getAllDepartments()
@@ -50,5 +51,18 @@ public class DefaultDepartmentService implements DepartmentService
         departmentsDAO.removeDepartmentDAO(id);
 
         return getAllDepartments();
+    }
+
+    @Override
+    public void createDepartment(HttpServletRequest req) {
+        Map<String, String> newDepartment = new HashMap<>();
+        newDepartment.put("id", req.getParameter("id"));
+        newDepartment.put("name", req.getParameter("name"));
+        newDepartment.put("city", req.getParameter("city"));
+        newDepartment.put("building", req.getParameter("building"));
+        newDepartment.put("street", req.getParameter("street"));
+        newDepartment.put("index", req.getParameter("index"));
+
+        departmentsDAO.createDepartmentDAO(newDepartment);
     }
 }

@@ -22,28 +22,42 @@ public class DepController extends HttpServlet {
      * @exception IOException if an input/output error occurs
      * @exception ServletException if a servlet error occurs
      */
-
+    private DepartmentService departmentService = new DefaultDepartmentService();
     @Override
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response)
             throws IOException, ServletException
     {
-        DepartmentService departmentService = new DefaultDepartmentService();
-        List<DepartmentData> allDepartments = departmentService.getAllDepartments();
+        if ("/department".equals(request.getServletPath())) {
+            List<DepartmentData> allDepartments = departmentService.getAllDepartments();
 
-        request.setAttribute("departments", allDepartments);
+            request.setAttribute("departments", allDepartments);
 
-        request.getRequestDispatcher("/WEB-INF/jsp/departments-list.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/jsp/departments-list.jsp").forward(request, response);
+        }
+
+        if("/department/create".equals(request.getServletPath())) {
+            request.getRequestDispatcher("/WEB-INF/jsp/create-department.jsp").forward(request, response);
+        }
+
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String idToRemove = req.getParameter("idToRemove");
-        DepartmentService departmentService = new DefaultDepartmentService();
-        List<DepartmentData> leftDepartments = departmentService.removeDepartment(idToRemove);
 
-        req.setAttribute("departments", leftDepartments);
+        if ("/department".equals(req.getServletPath())) {
+            String idToRemove = req.getParameter("idToRemove");
+            List<DepartmentData> leftDepartments = departmentService.removeDepartment(idToRemove);
 
-        req.getRequestDispatcher("/WEB-INF/jsp/departments-list.jsp").forward(req, resp);
+            req.setAttribute("departments", leftDepartments);
+
+            req.getRequestDispatcher("/WEB-INF/jsp/departments-list.jsp").forward(req, resp);
+        }
+
+        if ("/department/create".equals(req.getServletPath())) {
+            departmentService.createDepartment(req);
+            resp.sendRedirect(req.getContextPath() + "/department");
+        }
+
     }
 }

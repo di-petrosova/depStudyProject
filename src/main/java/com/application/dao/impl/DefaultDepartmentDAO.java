@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Map;
 
 public class DefaultDepartmentDAO implements DepartmentsDAO {
 
@@ -49,6 +50,26 @@ public class DefaultDepartmentDAO implements DepartmentsDAO {
        catch (SQLException e)
         {
             System.out.println("Remove from database was failed");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void createDepartmentDAO(Map<String, String> department) {
+
+        System.out.println(department);
+        String query = "INSERT depStudyProject.Departments (Id, DepartmentName, DepartmentCity, DepartmentBuilding, DepartmentStreet, DepartmentIndex)\n" +
+                "\tvalues (\'" + department.get("id") + "\',\'" + department.get("name") + "\',\'" + department.get("city") + "\',\'" + department.get("building") + "\',\'" + department.get("street")+ "\',\'" + department.get("index") + "\')";
+
+        try
+        {
+            Connection connection = DBConnectionFactory.createConnection();
+            Statement statement = connection.createStatement();
+            statement.execute(query);
+        }
+        catch (SQLException e)
+        {
+            System.out.println("Create new department to database was failed");
             e.printStackTrace();
         }
     }

@@ -21,7 +21,16 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>depControllerServlet</servlet-name>
-        <url-pattern>/depController</url-pattern>
+        <url-pattern>/department</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>depCreationServlet</servlet-name>
+        <servlet-class>com.application.controller.DepController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>depCreationServlet</servlet-name>
+        <url-pattern>/department/create</url-pattern>
     </servlet-mapping>
 
 </web-app>
