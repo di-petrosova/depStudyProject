@@ -40,6 +40,13 @@ public class DepController extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/jsp/create-department.jsp").forward(request, response);
         }
 
+        if("/department/edit".equals(request.getServletPath())) {
+            String idToEdit = request.getParameter("idToEdit");
+
+            request.setAttribute("currentDepartment", departmentService.getDepartmentById(idToEdit));
+            request.getRequestDispatcher("/WEB-INF/jsp/edit-department.jsp").forward(request, response);
+        }
+
     }
 
     @Override
@@ -56,6 +63,11 @@ public class DepController extends HttpServlet {
 
         if ("/department/create".equals(req.getServletPath())) {
             departmentService.createDepartment(req);
+            resp.sendRedirect(req.getContextPath() + "/department");
+        }
+
+        if ("/department/edit".equals(req.getServletPath())) {
+            departmentService.editDepartment(req);
             resp.sendRedirect(req.getContextPath() + "/department");
         }
 

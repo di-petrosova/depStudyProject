@@ -4,6 +4,8 @@ import com.application.dao.DepartmentsDAO;
 
 import com.application.dao.factory.*;
 import com.application.data.DepartmentData;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -12,6 +14,8 @@ import java.sql.Statement;
 import java.util.Map;
 
 public class DefaultDepartmentDAO implements DepartmentsDAO {
+
+    private static Logger LOG = LoggerFactory.getLogger(DefaultDepartmentDAO.class);
 
     @Override
     public ResultSet getAllDepartments() {
@@ -31,8 +35,7 @@ public class DefaultDepartmentDAO implements DepartmentsDAO {
         }
         catch (SQLException e)
         {
-            System.out.println("Read from database was failed");
-            e.printStackTrace();
+            LOG.error("Read from database was failed");
         }
         return rs;
     }
@@ -49,15 +52,13 @@ public class DefaultDepartmentDAO implements DepartmentsDAO {
         }
        catch (SQLException e)
         {
-            System.out.println("Remove from database was failed");
-            e.printStackTrace();
+            LOG.error("Remove from database was failed");
         }
     }
 
     @Override
     public void createDepartmentDAO(Map<String, String> department) {
 
-        System.out.println(department);
         String query = "INSERT depStudyProject.Departments (Id, DepartmentName, DepartmentCity, DepartmentBuilding, DepartmentStreet, DepartmentIndex)\n" +
                 "\tvalues (\'" + department.get("id") + "\',\'" + department.get("name") + "\',\'" + department.get("city") + "\',\'" + department.get("building") + "\',\'" + department.get("street")+ "\',\'" + department.get("index") + "\')";
 
@@ -69,8 +70,45 @@ public class DefaultDepartmentDAO implements DepartmentsDAO {
         }
         catch (SQLException e)
         {
-            System.out.println("Create new department to database was failed");
-            e.printStackTrace();
+            LOG.error("Create new department to database was failed");
         }
     }
+
+    @Override
+    public void editDepartmentDAO(Map<String, String> department) {
+        String query = "UPDATE depStudyProject.Departments SET Id = \'" + department.get("id") + "\', DepartmentName = \'" + department.get("name") + "\', DepartmentCity = \'" + department.get("city") + "\', DepartmentBuilding = \'" + department.get("building")+ "\', DepartmentStreet = \'" + department.get("street") + "\', DepartmentIndex = \'" + department.get("index") + "\'" + " WHERE id='"+ department.get("id")+"\'";
+
+        try
+        {
+            Connection connection = DBConnectionFactory.createConnection();
+            Statement statement = connection.createStatement();
+            statement.execute(query);
+        }
+        catch (SQLException e)
+        {
+            LOG.error("Edit department was failed");
+        }
+    }
+
+    @Override
+    public ResultSet getDepartmentForIdDAO(String id) {
+        String query = "SELECT * FROM depStudyProject.Departments WHERE id=\'" + id + "\'";
+        ResultSet rs = null;
+
+        try
+        {
+            Connection connection = DBConnectionFactory.createConnection();
+            Statement statement = connection.createStatement();
+            rs = statement.executeQuery(query);
+
+        }
+        catch (SQLException e)
+        {
+            LOG.error("Read from database was failed", e);
+
+        }
+        return rs;
+    }
+
+
 }

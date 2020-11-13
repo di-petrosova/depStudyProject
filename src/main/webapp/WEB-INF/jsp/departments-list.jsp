@@ -45,15 +45,18 @@
             <td>${department.depBuilding}</td>
             <td>${department.depStreet}</td>
             <td>${department.depIndex}</td>
-<%--            <c:if test="${sdgh}">--%>
-<%--            </c:if>--%>
             <td>
                 <form action="${pageContext.request.contextPath}/department" method="post">
                     <input name="idToRemove" type="text" value="${department.depId}" hidden>
                     <button type="submit">Remove</button>
                 </form>
             </td>
-
+            <td>
+                <form action="${pageContext.request.contextPath}/department/edit" method="get">
+                    <input name="idToEdit" type="text" value="${department.depId}" hidden>
+                    <button type="submit">Edit</button>
+                </form>
+            </td>
         </tr>
     </c:forEach>
     <tr>
