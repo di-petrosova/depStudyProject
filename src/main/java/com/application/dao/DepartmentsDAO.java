@@ -9,4 +9,5 @@ public interface DepartmentsDAO {
     void createDepartmentDAO(Map<String, String> department);
     void editDepartmentDAO(Map<String, String> department);
     ResultSet getDepartmentForIdDAO(String id);
+    boolean checkExistingDepartmentId(String id);
 }

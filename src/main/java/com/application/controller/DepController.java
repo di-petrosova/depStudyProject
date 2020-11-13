@@ -6,6 +6,7 @@ import com.application.service.impl.DefaultDepartmentService;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -42,8 +43,10 @@ public class DepController extends HttpServlet {
 
         if("/department/edit".equals(request.getServletPath())) {
             String idToEdit = request.getParameter("idToEdit");
-
-            request.setAttribute("currentDepartment", departmentService.getDepartmentById(idToEdit));
+            DepartmentData departmentById = departmentService.getDepartmentById(idToEdit);
+            if(Objects.nonNull(departmentById)) {
+                request.setAttribute("currentDepartment", departmentService.getDepartmentById(idToEdit));
+            }
             request.getRequestDispatcher("/WEB-INF/jsp/edit-department.jsp").forward(request, response);
         }
 

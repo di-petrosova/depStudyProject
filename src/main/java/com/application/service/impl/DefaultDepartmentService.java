@@ -15,19 +15,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 public class DefaultDepartmentService implements DepartmentService
 {
 
     private DepartmentsDAO departmentsDAO = new DefaultDepartmentDAO();
-    private static Logger LOG  = LoggerFactory.getLogger(DefaultDepartmentService.class);
+    private static Logger LOG = LoggerFactory.getLogger(DefaultDepartmentService.class);
 
     @Override
     public List<DepartmentData> getAllDepartments()
     {
-        List<DepartmentData> departmentsList = new ArrayList<>();
         ResultSet resultSet = departmentsDAO.getAllDepartments();
+        List<DepartmentData> departmentData = convertToDepartmentList(resultSet);
+        return departmentData;
+    }
 
-        System.out.println(departmentsDAO.getAllDepartments());
+    private List<DepartmentData> convertToDepartmentList(ResultSet resultSet) {
+        List<DepartmentData> departmentsList = new ArrayList<>();
+
         try
         {
             while (resultSet.next())
@@ -52,25 +57,27 @@ public class DefaultDepartmentService implements DepartmentService
     @Override
     public DepartmentData getDepartmentById(String idToEdit)
     {
-        DepartmentData departmentData = new DepartmentData();
-
         ResultSet resultSet = departmentsDAO.getDepartmentForIdDAO(idToEdit);
-        try
-        {
-            resultSet.next();
-            departmentData.setDepId(resultSet.getInt(1));
-            departmentData.setDepName(resultSet.getString(2));
-            departmentData.setDepCity(resultSet.getString(3));
-            departmentData.setDepBuilding(resultSet.getString(4));
-            departmentData.setDepStreet(resultSet.getString(5));
-            departmentData.setDepIndex(resultSet.getString(6));
-        }
-        catch (SQLException e)
-        {
-            LOG.error("Get department by its id was failed");
+        List<DepartmentData> departmentDataList = convertToDepartmentList(resultSet);
+        if(departmentDataList.isEmpty()) {
+            return null;
         }
 
-        return departmentData;
+        return departmentDataList.get(0);
+    }
+
+    @Override
+    public String getRandomId()
+    {
+        String randomId;
+        int intId;
+        do
+        {
+            intId = (int) (Math.random() * 10000);
+            randomId = String.valueOf(intId);
+        }
+        while (departmentsDAO.checkExistingDepartmentId(randomId));
+        return randomId;
     }
 
     @Override
@@ -81,31 +88,30 @@ public class DefaultDepartmentService implements DepartmentService
         return getAllDepartments();
     }
 
+
+    private Map<String, String> convertRequestToMap(HttpServletRequest req) {
+        Map<String, String> department = new HashMap<>();
+        department.put("id", req.getParameter("id"));
+        department.put("name", req.getParameter("name"));
+        department.put("city", req.getParameter("city"));
+        department.put("building", req.getParameter("building"));
+        department.put("street", req.getParameter("street"));
+        department.put("index", req.getParameter("index"));
+
+        return department;
+    }
+
     @Override
     public void createDepartment(HttpServletRequest req)
     {
-        Map<String, String> newDepartment = new HashMap<>();
-        newDepartment.put("id", req.getParameter("id"));
-        newDepartment.put("name", req.getParameter("name"));
-        newDepartment.put("city", req.getParameter("city"));
-        newDepartment.put("building", req.getParameter("building"));
-        newDepartment.put("street", req.getParameter("street"));
-        newDepartment.put("index", req.getParameter("index"));
-
+        Map<String, String> newDepartment = convertRequestToMap(req);
+        newDepartment.put("id", getRandomId());
         departmentsDAO.createDepartmentDAO(newDepartment);
     }
 
     @Override
     public void editDepartment(HttpServletRequest req)
     {
-        Map<String, String> editedDepartment = new HashMap<>();
-        editedDepartment.put("id", req.getParameter("id"));
-        editedDepartment.put("name", req.getParameter("name"));
-        editedDepartment.put("city", req.getParameter("city"));
-        editedDepartment.put("building", req.getParameter("building"));
-        editedDepartment.put("street", req.getParameter("street"));
-        editedDepartment.put("index", req.getParameter("index"));
-
-        departmentsDAO.editDepartmentDAO(editedDepartment);
+        departmentsDAO.editDepartmentDAO(convertRequestToMap(req));
     }
 }

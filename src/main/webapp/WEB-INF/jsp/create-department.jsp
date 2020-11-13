@@ -15,10 +15,6 @@
 
 <form action="${pageContext.request.contextPath}/department/create" method="post">
     <p>
-        <label for="id">Id</label>
-        <input type="text" id="id" name="id">
-    </p>
-    <p>
         <label for="departmentName">Name</label>
         <input type="text" id="departmentName" name="name">
     </p>

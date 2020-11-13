@@ -11,4 +11,5 @@ public interface DepartmentService {
     void createDepartment(HttpServletRequest req);
     void editDepartment(HttpServletRequest req);
     DepartmentData getDepartmentById(String id);
+    String getRandomId();
 }

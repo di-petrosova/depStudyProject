@@ -111,4 +111,26 @@ public class DefaultDepartmentDAO implements DepartmentsDAO {
     }
 
 
+
+    @Override
+    public boolean checkExistingDepartmentId(String id) {
+        String query = "SELECT 1 FROM depStudyProject.Departments where Id = \'" + id +"\' limit 1";
+        ResultSet rs = null;
+        int ifExist = 0;
+
+        try
+        {
+            Connection connection = DBConnectionFactory.createConnection();
+            Statement statement = connection.createStatement();
+            rs = statement.executeQuery(query);
+            ifExist = ((Number) rs.getObject(1)).intValue();
+
+        }
+        catch (SQLException e)
+        {
+            LOG.error("Read from database was failed", e);
+
+        }
+        return ifExist == 1;
+    }
 }
