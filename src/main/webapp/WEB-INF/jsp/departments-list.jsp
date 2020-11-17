@@ -11,7 +11,9 @@
 <p>Request : ${pageContext.request}</p>
 <p>ServletPath : ${pageContext.request.servletPath}</p>
 <p>Protocol : ${pageContext.request.protocol}</p>
-<p>PathInfo : ${pageContext.request.pathInfo}</p>
+<p>Request URL : ${pageContext.request.getRequestURL()}</p>
+<p>Request URI : ${pageContext.request.getRequestURI()}</p>
+<p>Request URI : ${pageContext.request.getAttribute("javax.servlet.forward.request_uri")}</p>
 
 <table>
     <thead>
